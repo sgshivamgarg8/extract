@@ -6,7 +6,8 @@ import os
 
 def readFile():
     try:
-        file = open("inputs/data.json")
+        inputFilePath = "inputs/data.json"
+        file = open(inputFilePath)
         data = json.load(file)
 
         fileData = data["aaData"]
@@ -16,7 +17,9 @@ def readFile():
         return fileData
 
     except:
-        raise Exception("File not found, please put data.json inside inputs folder")
+        raise Exception(
+            f"File not found, please check if file is present at {inputFilePath}"
+        )
 
 
 def getActions(row):
@@ -82,12 +85,20 @@ def generateXls(json):
 
 
 if __name__ == "__main__":
-    rows = readFile()
+    try:
+        rows = readFile()
 
-    jsonData = []
+        jsonData = []
 
-    for row in rows:
-        data = parseRow(row)
-        jsonData.append(data)
+        for row in rows:
+            data = parseRow(row)
+            jsonData.append(data)
 
-    generateXls(jsonData)
+        generateXls(jsonData)
+
+    except Exception as e:
+        print(e)
+
+    finally:
+        # To keep terminal window on screen
+        input("Press enter to exit...")
