@@ -4,3 +4,4 @@ dist
 app.spec
 test.json
 outputs/~$output.xlsx
+utils/__pycache__/constants.cpython-312.pyc
