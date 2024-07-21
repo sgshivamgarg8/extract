@@ -1,10 +1,11 @@
 import json
 from bs4 import BeautifulSoup
 import pandas
+import os
 
 
 def readFile():
-    file = open("data.json")
+    file = open("inputs/data.json")
 
     data = json.load(file)
 
@@ -61,7 +62,11 @@ def parseRow(row):
 
 def generateXls(json):
     df = pandas.DataFrame(json)
-    output_file = "output.xlsx"
+
+    if not os.path.exists("outputs"):
+        os.makedirs("outputs")
+
+    output_file = "outputs/output.xlsx"
     df.to_excel(output_file, index=False, engine="openpyxl")
 
 
