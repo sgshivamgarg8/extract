@@ -4,13 +4,12 @@
 pip install -r requirements.txt
 ```
 
-2. Run application via
+2. To Run
 
-   1. Place your input file inside inputs/ folder named data.json
-   2.
+   - Place your input file inside inputs/ folder named data.json
 
-   ```sh
-   python app.py
-   ```
+   - ```sh
+     python app.py
+     ```
 
 3. Output file will be generated in outputs/ named output.xlsx
