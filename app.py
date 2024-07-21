@@ -187,7 +187,7 @@ if __name__ == "__main__":
     for row in rows:
         data = parseRow(row)
         jsonData.append(data)
-        break
+        # break
 
     generateXls(jsonData)
 
