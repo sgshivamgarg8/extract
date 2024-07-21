@@ -1,5 +1,6 @@
 import json
 from bs4 import BeautifulSoup
+import pandas
 
 
 def readFile():
@@ -20,13 +21,14 @@ def getActions(row):
 
     links = soup.find_all("a")
 
-    return list(map(lambda link: link.text.strip(), links))
+    listOfActions = list(map(lambda link: link.text.strip(), links))
+
+    return ", ".join(listOfActions)
 
 
 def getLanguage(row):
     html = row["language"]
     soup = BeautifulSoup(html, "html.parser")
-    # print(soup.prettify())
 
     options = soup.find_all("option")
     language = None
@@ -44,19 +46,32 @@ def getLanguage(row):
 #     print(soup.prettify())
 
 
+# Return json data for the row
 def parseRow(row):
     actions = getActions(row)
-    print("actions:", actions)
 
     language = getLanguage(row)
-    print("language:", language)
 
     # followupDateTime = followupDateTime()
     # print("followupDateTime", followupDateTime)
+
+    data = {"Actions": actions, "Language": language}
+    return data
+
+
+def generateXls(json):
+    df = pandas.DataFrame(json)
+    output_file = "output.xlsx"
+    df.to_excel(output_file, index=False, engine="openpyxl")
 
 
 # Read the file and get rows data
 rows = readFile()
 
+jsonData = []
 
-parseRow(rows[0])
+for row in rows:
+    data = parseRow(row)
+    jsonData.append(data)
+
+generateXls(jsonData)
