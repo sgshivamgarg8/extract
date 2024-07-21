@@ -5,15 +5,18 @@ import os
 
 
 def readFile():
-    file = open("inputs/data.json")
+    try:
+        file = open("inputs/data.json")
+        data = json.load(file)
 
-    data = json.load(file)
+        fileData = data["aaData"]
 
-    fileData = data["aaData"]
+        file.close()
 
-    file.close()
+        return fileData
 
-    return fileData
+    except:
+        raise Exception("File not found, please put data.json inside inputs folder")
 
 
 def getActions(row):
@@ -61,22 +64,30 @@ def parseRow(row):
 
 
 def generateXls(json):
-    df = pandas.DataFrame(json)
+    try:
+        df = pandas.DataFrame(json)
 
-    if not os.path.exists("outputs"):
-        os.makedirs("outputs")
+        outputFolderName = "outputs"
+        outputFileName = "output"
+        if not os.path.exists(outputFolderName):
+            os.makedirs(outputFolderName)
 
-    output_file = "outputs/output.xlsx"
-    df.to_excel(output_file, index=False, engine="openpyxl")
+        output_file = outputFolderName + "/" + outputFileName + ".xlsx"
+        df.to_excel(output_file, index=False, engine="openpyxl")
+
+        print(f"Generated file successfully at {output_file}")
+
+    except:
+        raise Exception("Failed to generate output file")
 
 
-# Read the file and get rows data
-rows = readFile()
+if __name__ == "__main__":
+    rows = readFile()
 
-jsonData = []
+    jsonData = []
 
-for row in rows:
-    data = parseRow(row)
-    jsonData.append(data)
+    for row in rows:
+        data = parseRow(row)
+        jsonData.append(data)
 
-generateXls(jsonData)
+    generateXls(jsonData)
