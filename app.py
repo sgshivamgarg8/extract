@@ -59,6 +59,12 @@ def getName(row):
     return soup.text
 
 
+def getLeadQuality(row):
+    html = row["Lead_Quality"]
+    soup = BeautifulSoup(html, "html.parser")
+    return soup.find("p").text
+
+
 # Return json data for the row
 def parseRow(row):
     data = {
@@ -66,6 +72,7 @@ def parseRow(row):
         "Language": getLanguage(row),
         "Followup / Modify Date/Time": getFollowupDateTime(row),
         "Name": getName(row),
+        "Lead Quality": getLeadQuality(row),
     }
 
     return data
