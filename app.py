@@ -1,9 +1,9 @@
 import json
 from bs4 import BeautifulSoup
-import pandas
 import os
 from openpyxl import Workbook
 from openpyxl.styles import Border, Side, Alignment, Font
+from utils.constants import Headers
 
 
 def readFile():
@@ -83,12 +83,12 @@ def getDescription(row):
 # Return json data for the row
 def parseRow(row):
     data = {
-        "Actions": getActions(row),
-        "Language": getLanguage(row),
-        "Followup / Modify Date/Time": getFollowupDateTime(row),
-        "Name": getName(row),
-        "Lead Quality": getLeadQuality(row),
-        "Description": getDescription(row),
+        Headers.ACTIONS.value: getActions(row),
+        Headers.LANGUAGE.value: getLanguage(row),
+        Headers.FOLLOWUP_MODIFY_DATE_TIME.value: getFollowupDateTime(row),
+        Headers.NAME.value: getName(row),
+        Headers.LEAD_QUALITY.value: getLeadQuality(row),
+        Headers.DESCRIPTION.value: getDescription(row),
     }
 
     return data
@@ -99,12 +99,12 @@ def configureWB(wb: Workbook, data):
 
     # Define headers
     headers = [
-        "Actions",
-        "Language",
-        "Followup / Modify Date/Time",
-        "Name",
-        "Lead Quality",
-        "Description",
+        Headers.ACTIONS.value,
+        Headers.LANGUAGE.value,
+        Headers.FOLLOWUP_MODIFY_DATE_TIME.value,
+        Headers.NAME.value,
+        Headers.LEAD_QUALITY.value,
+        Headers.DESCRIPTION.value,
     ]
     ws.append(headers)
 

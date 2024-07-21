@@ -1,0 +1,27 @@
+from enum import Enum
+
+
+class Headers(Enum):
+    ACTIONS = "Actions"
+    LANGUAGE = "Language"
+    FOLLOWUP_MODIFY_DATE_TIME = "Followup/Modify Date/Time"
+    NAME = "Name"
+    LEAD_QUALITY = "Lead Quality"
+    DESCRIPTION = "Description"
+    DESCRIPTION2 = "Description 2"
+    PIPELINE_DESCRIPTION = "Pipeline Description"
+    LEAD_REVIVAL_COMMENT = "Lead_Revival_Comment"
+    ORIGINAL_DATETIME = "ORIGINAL_DATETIME"
+    PAIN_AREA = "PAIN_AREA"
+    NO_OF_CALLS = "NO_OF_CALLS"
+    CAMPAIGN = "CAMPAIGN"
+    COURSE = "COURSE"
+    PENDING = "PENDING"
+    PRODUCT = "PRODUCT"
+    LEAD_SOURCE = "LEAD_SOURCE"
+    DIG = "DIG"
+    PAYMENT_LINK = "PAYMENT_LINK"
+    PAYMENT_REQUEST = "PAYMENT_REQUEST"
+    SEND_FREE_LMS = "SEND_FREE_LMS"
+    HISTORY = "HISTORY"
+    PENDING_PAYMENT = "PENDING_PAYMENT"
