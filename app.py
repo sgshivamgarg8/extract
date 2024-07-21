@@ -47,22 +47,27 @@ def getLanguage(row):
     return language
 
 
-# def followupDateTime(row):
-#     html = row["Followup_Modify_Date_Time"]
-#     soup = BeautifulSoup(html, "html.parser")
-#     print(soup.prettify())
+def getFollowupDateTime(row):
+    html = row["Followup_Modify_Date_Time"]
+    soup = BeautifulSoup(html, "html.parser")
+    return soup.text
+
+
+def getName(row):
+    html = row["name"]
+    soup = BeautifulSoup(html, "html.parser")
+    return soup.text
 
 
 # Return json data for the row
 def parseRow(row):
-    actions = getActions(row)
+    data = {
+        "Actions": getActions(row),
+        "Language": getLanguage(row),
+        "Followup / Modify Date/Time": getFollowupDateTime(row),
+        "Name": getName(row),
+    }
 
-    language = getLanguage(row)
-
-    # followupDateTime = followupDateTime()
-    # print("followupDateTime", followupDateTime)
-
-    data = {"Actions": actions, "Language": language}
     return data
 
 
@@ -85,20 +90,33 @@ def generateXls(json):
 
 
 if __name__ == "__main__":
-    try:
-        rows = readFile()
+    rows = readFile()
 
-        jsonData = []
+    jsonData = []
 
-        for row in rows:
-            data = parseRow(row)
-            jsonData.append(data)
+    for row in rows:
+        data = parseRow(row)
+        jsonData.append(data)
+        break
 
-        generateXls(jsonData)
+    generateXls(jsonData)
 
-    except Exception as e:
-        print(e)
 
-    finally:
-        # To keep terminal window on screen
-        input("Press enter to exit...")
+# if __name__ == "__main__":
+#     try:
+#         rows = readFile()
+
+#         jsonData = []
+
+#         for row in rows:
+#             data = parseRow(row)
+#             jsonData.append(data)
+
+#         generateXls(jsonData)
+
+#     except Exception as e:
+#         print(e)
+
+#     finally:
+#         # To keep terminal window on screen
+#         input("Press enter to exit...")

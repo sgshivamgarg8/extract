@@ -2,3 +2,5 @@ build
 dist
 
 app.spec
+test.json
+outputs/~$output.xlsx
