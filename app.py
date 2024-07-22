@@ -80,15 +80,50 @@ def getDescription(row):
     return descriptionText
 
 
+def getPending(row):
+    html = row["pending"]
+    soup = BeautifulSoup(html, "html.parser")
+    return soup.text
+
+
+def getOriginalDateTime(row):
+    html = row["o_datetime"]
+    soup = BeautifulSoup(html, "html.parser")
+    return soup.text
+
+
+def getPainArea(row):
+    html = row["painarea"]
+    soup = BeautifulSoup(html, "html.parser")
+    return soup.find("p").text
+
+
+def getCourse(row):
+    html = row["Course"]
+    soup = BeautifulSoup(html, "html.parser")
+    options = soup.find_all("option")
+    course = "UNALLOCATED"
+    for option in options:
+        if option.has_attr("selected"):
+            course = option["value"]
+            break
+
+    return course
+
+
 # Return json data for the row
 def parseRow(row):
     data = {
-        Headers.ACTIONS.value: getActions(row),
+        # Headers.ACTIONS.value: getActions(row),
         Headers.LANGUAGE.value: getLanguage(row),
         Headers.FOLLOWUP_MODIFY_DATE_TIME.value: getFollowupDateTime(row),
         Headers.NAME.value: getName(row),
         Headers.LEAD_QUALITY.value: getLeadQuality(row),
         Headers.DESCRIPTION.value: getDescription(row),
+        Headers.PENDING.value: getPending(row),
+        Headers.ORIGINAL_DATETIME.value: getOriginalDateTime(row),
+        Headers.PAIN_AREA.value: getPainArea(row),
+        Headers.COURSE.value: getCourse(row),
     }
 
     return data
@@ -99,12 +134,16 @@ def configureWB(wb: Workbook, data):
 
     # Define headers
     headers = [
-        Headers.ACTIONS.value,
+        # Headers.ACTIONS.value,
         Headers.LANGUAGE.value,
         Headers.FOLLOWUP_MODIFY_DATE_TIME.value,
         Headers.NAME.value,
         Headers.LEAD_QUALITY.value,
         Headers.DESCRIPTION.value,
+        Headers.PENDING.value,
+        Headers.ORIGINAL_DATETIME.value,
+        Headers.PAIN_AREA.value,
+        Headers.COURSE.value,
     ]
     ws.append(headers)
 
@@ -121,7 +160,16 @@ def configureWB(wb: Workbook, data):
         col_letter = column[0].column_letter
         ws.column_dimensions[col_letter].width = 10
 
-    column_widths = {"A": 30, "C": 20, "F": 80}
+    column_widths = {
+        "B": 25,
+        "C": 15,
+        "D": 11,
+        "E": 80,
+        "F": 16,
+        "G": 18,
+        "H": 13,
+        "I": 18,
+    }
 
     # override custom col width
     for col, width in column_widths.items():
@@ -149,7 +197,7 @@ def configureWB(wb: Workbook, data):
             cell.alignment = Alignment(vertical="center")  # Center vertically
 
     # Apply text wrapping to the desired columns
-    col_wraps = ["A", "F"]
+    col_wraps = ["E"]
     for col_letter in col_wraps:
         for cell in ws[col_letter]:
             cell.alignment = Alignment(wrap_text=True)
