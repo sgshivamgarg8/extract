@@ -9,7 +9,7 @@ from utils.constants import Headers
 def readFile():
     try:
         inputFilePath = "inputs/data.json"
-        file = open(inputFilePath)
+        file = open(inputFilePath, encoding="utf8")
         data = json.load(file)
 
         fileData = data["aaData"]
