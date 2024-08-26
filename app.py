@@ -89,14 +89,12 @@ def getPending(row):
 
 def getOriginalDateTime(row):
     val = ''
-    try:
-        html = row["o_datetime"]
+
+    html = row["o_datetime"]
+
+    if html != None:
         soup = BeautifulSoup(html, "html.parser")
         val = soup.text
-
-    except:
-        print('Error in extracting OriginalDateTime')
-        val = 'error'
 
     return val
 
