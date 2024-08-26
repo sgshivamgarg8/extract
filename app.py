@@ -20,7 +20,8 @@ def readFile():
 
     except:
         raise Exception(
-            f"File not found, please check if file is present at {inputFilePath}"
+            f"File not found, please check if file is present at {
+                inputFilePath}"
         )
 
 
@@ -87,9 +88,17 @@ def getPending(row):
 
 
 def getOriginalDateTime(row):
-    html = row["o_datetime"]
-    soup = BeautifulSoup(html, "html.parser")
-    return soup.text
+    val = ''
+    try:
+        html = row["o_datetime"]
+        soup = BeautifulSoup(html, "html.parser")
+        val = soup.text
+
+    except:
+        print('Error in extracting OriginalDateTime')
+        val = 'error'
+
+    return val
 
 
 def getPainArea(row):
@@ -221,7 +230,8 @@ def generateXls(data):
 
         wb.save(output_file)
 
-        print(f"Excel file '{output_file}' created and formatted successfully.")
+        print(f"Excel file '{
+              output_file}' created and formatted successfully.")
 
     except:
         raise Exception("Failed to generate output file")
